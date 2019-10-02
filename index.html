@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Restaurant "de Vergulde Badaend"</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
+	<script src="javascript/main.js" type="text/javascript" charset="utf-8" async defer></script>
+</head>
+<body>
+	<div class="container">
+		<h1>Restaurant "de Vergulde Badeend"</h1>
+		<div class="row">
+			<div class="col">
+				<h2>Menukaart</h2>
+				<table class="table table-striped table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th>#</th>
+							<th>Gerecht:</th>
+							<th>Prijs:</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Fu Yong Haï</td>
+							<td>&euro; 9,95</td>
+							<td><input type="checkbox" name="1" class="item" value="9.95" onchange="submitCheck(this)"></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Kipsaté</td>
+							<td>&euro; 4,35</td>
+							<td><input type="checkbox" name="2" class="item" value="4.35" onchange="submitCheck(this)"></td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Fricandeau Spezial</td>
+							<td>&euro; 6,35</td>
+							<td><input type="checkbox" name="3" class="item" value="6.35" onchange="submitCheck(this)"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col">
+				<h2>Drankenkaart</h2>
+				<table class="table table-striped table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th>#</th>
+							<th>Drank:</th>
+							<th>Prijs:</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>4</td>
+							<td>Cola</td>
+							<td>&euro; 2,25</td>
+							<td><input type="checkbox" name="4" class="item" value="2.25" onchange="submitCheck(this)"></td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>Bier Teryaki</td>
+							<td>&euro; 3,20</td>
+							<td><input type="checkbox" name="5" class="item" value="3.20" onchange="submitCheck(this)"></td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>Kraanwater</td>
+							<td>&euro; 1,20</td>
+							<td><input type="checkbox" name="6" class="item" value="1.20" onchange="submitCheck(this)"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<form onsubmit="berekenBedrag()">
+					<button class="btn btn-primary" type="submit" name="totaalbedrag" id="totaalbedrag" disabled>Totaalbedrag berekenen</button>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div id="totaalbedrag">Totaalbedrag is:</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

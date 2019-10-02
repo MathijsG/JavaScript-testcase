@@ -1,0 +1,13 @@
+.logo
+{
+
+}
+
+h1
+{
+	background-image: url('../images/logo.png');
+	background-repeat: no-repeat;
+	padding-left: 95px;
+	height: 114px;
+	vertical-align: middle;
+}
