@@ -1,34 +1,37 @@
-const prijslijst = [];
-prijslijst[1] = 9.95; // Fu Yong Hai
-prijslijst[2] = 4.35; // Kipsaté
-prijslijst[3] = 6.35; // Fricandeau Spezial
+function initialize()
+{
+	//document.getElementById("bedragen").style.display = 'none';
+}
 
 var output = document.getElementById('totaalbedrag');
 
 function berekenBedrag()
 {
+	// Maak eerdere output leeg
+	
 	// Maak een array van alle elementen met klassenaam item
 	var items=document.getElementsByClassName("item");
 	var selectedItems = "";
+	var selectedItemNames = "";
 	var amount = 0;
 	
 	// Itereer door de opgehaalde elementen
 	for(var i=0; i<items.length; i++)
 	{
 		// Check of de elementen checkboxen zijn en gecheckt zijn
-		if(items[i].type=='checkbox' && items[i].checked==true)
+		if(items[i].type == 'checkbox' && items[i].checked==true)
 		{
 			// Voeg het geselecteerde item toe aan de variabele selectedItems
-			selectedItems+=items[i].value+"\n";
+			selectedItems += items[i].value+"\n";
+			selectedItemNames += items[i].name +"\n";
 			// Convert de tekst naar float
 			amount = amount + parseFloat(items[i].value);
 		}
 	}
-	alert(amount);
 	// Pinnen vanaf groter dan 5 euro
 	if (amount > 5)
 	{
-		output.insertAdjacentHTML('afterend', '<div id="pin">Wilt u alstublieft pinnen?</div>');
+		output.insertAdjacentHTML('beforeend', '<div id="pin">Wilt u alstublieft pinnen?</div>');
 	}
 	else
 	{
@@ -36,7 +39,10 @@ function berekenBedrag()
 	}
 
 	// Output het eindbedrag
-	output.insertAdjacentHTML('afterend', '<marquee>EINDBEDRAG</marquee>');
+	output.insertAdjacentHTML('afterend', selectedItemNames + " " + selectedItems + "\n");
+	document.getElementById('total').insertAdjacentHTML('beforeend', amount);
+
+	playAudio();
 }
 
 function submitCheck(checkbox)
@@ -64,4 +70,11 @@ function submitCheck(checkbox)
 			var item = document.getElementById("totaalbedrag").disabled = true;
 		}
 	}
+}
+
+function playAudio()
+{
+	var audio = new Audio('resources/receipt.mp3');
+
+	audio.play();
 }

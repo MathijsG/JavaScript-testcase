@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 	<script src="javascript/main.js" type="text/javascript" charset="utf-8" async defer></script>
 </head>
-<body>
+<body onload="initialize()">
 	<div class="container">
 		<h1>Restaurant "de Vergulde Badeend"</h1>
 		<div class="row">
@@ -28,19 +28,19 @@
 							<td>1</td>
 							<td>Fu Yong Haï</td>
 							<td>&euro; 9,95</td>
-							<td><input type="checkbox" name="1" class="item" value="9.95" onchange="submitCheck(this)"></td>
+							<td><input type="checkbox" name="Fu Yong Haï" class="item" value="9.95" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>2</td>
 							<td>Kipsaté</td>
 							<td>&euro; 4,35</td>
-							<td><input type="checkbox" name="2" class="item" value="4.35" onchange="submitCheck(this)"></td>
+							<td><input type="checkbox" name="Kipsaté" class="item" value="4.35" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>3</td>
 							<td>Fricandeau Spezial</td>
 							<td>&euro; 6,35</td>
-							<td><input type="checkbox" name="3" class="item" value="6.35" onchange="submitCheck(this)"></td>
+							<td><input type="checkbox" name="Fricandeau Spezial" class="item" value="6.35" onchange="submitCheck(this)"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -61,19 +61,19 @@
 							<td>4</td>
 							<td>Cola</td>
 							<td>&euro; 2,25</td>
-							<td><input type="checkbox" name="4" class="item" value="2.25" onchange="submitCheck(this)"></td>
+							<td><input type="checkbox" name="Cola" class="item" value="2.25" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>5</td>
 							<td>Bier Teryaki</td>
 							<td>&euro; 3,20</td>
-							<td><input type="checkbox" name="5" class="item" value="3.20" onchange="submitCheck(this)"></td>
+							<td><input type="checkbox" name="Bier Teryaki" class="item" value="3.20" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>6</td>
 							<td>Kraanwater</td>
 							<td>&euro; 1,20</td>
-							<td><input type="checkbox" name="6" class="item" value="1.20" onchange="submitCheck(this)"></td>
+							<td><input type="checkbox" name="Kraanwater" class="item" value="1.20" onchange="submitCheck(this)"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -81,14 +81,17 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<form onsubmit="berekenBedrag()">
+				<form onsubmit="berekenBedrag()" action="#">
 					<button class="btn btn-primary" type="submit" name="totaalbedrag" id="totaalbedrag" disabled>Totaalbedrag berekenen</button>
 				</form>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col">
-				<div id="totaalbedrag">Totaalbedrag is:</div>
+				<div id="bedragen">
+					<h3>Bestelling:</h3>
+				<span id="total">Totaalbedrag is: &euro;</span>
+				</div>
 			</div>
 		</div>
 	</div>
