@@ -7,20 +7,22 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 	<script src="javascript/main.js" type="text/javascript" charset="utf-8" async defer></script>
+	<script src="javascript/database.js" type="text/javascript" charset="utf-8" async defer></script>
+	<script src="https://kit.fontawesome.com/61e3c0206e.js" crossorigin="anonymous"></script>
 </head>
 <body onload="initialize()">
 	<div class="container">
-		<h1>Restaurant "de Vergulde Badeend"</h1>
+		<h1>Restaurant <span class="golden">'de Vergulde Badeend'</span></h1>
 		<div class="row">
 			<div class="col">
-				<h2>Menukaart</h2>
-				<table class="table table-striped table-hover">
+				<h2><i class="fas fa-utensils"></i> Menukaart</h2>
+				<table id="menukaart" class="table table-striped table-hover">
 					<thead class="thead-dark">
 						<tr>
 							<th>#</th>
 							<th>Gerecht:</th>
 							<th>Prijs:</th>
-							<th></th>
+							<th>Aantal:</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -28,25 +30,25 @@
 							<td>1</td>
 							<td>Fu Yong Haï</td>
 							<td>&euro; 9,95</td>
-							<td><input type="checkbox" name="Fu Yong Haï" class="item" value="9.95" onchange="submitCheck(this)"></td>
+							<td><input type="number" name="1" class="amount" min="0" max="10" maxlength="2" value="0" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>2</td>
 							<td>Kipsaté</td>
 							<td>&euro; 4,35</td>
-							<td><input type="checkbox" name="Kipsaté" class="item" value="4.35" onchange="submitCheck(this)"></td>
+							<td><input type="number" name="2" class="amount" min="0" max="10" maxlength="2" value="0" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>3</td>
 							<td>Fricandeau Spezial</td>
 							<td>&euro; 6,35</td>
-							<td><input type="checkbox" name="Fricandeau Spezial" class="item" value="6.35" onchange="submitCheck(this)"></td>
+							<td><input type="number" name="3" class="amount" min="0" max="10" maxlength="2" value="0" onchange="submitCheck(this)"></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="col">
-				<h2>Drankenkaart</h2>
+				<h2><i class="fas fa-wine-glass-alt"></i> Drankenkaart</h2>
 				<table class="table table-striped table-hover">
 					<thead class="thead-dark">
 						<tr>
@@ -61,19 +63,19 @@
 							<td>4</td>
 							<td>Cola</td>
 							<td>&euro; 2,25</td>
-							<td><input type="checkbox" name="Cola" class="item" value="2.25" onchange="submitCheck(this)"></td>
+							<td><input type="number" name="4" class="amount" min="0" max="10" maxlength="2" value="0" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>5</td>
 							<td>Bier Teryaki</td>
 							<td>&euro; 3,20</td>
-							<td><input type="checkbox" name="Bier Teryaki" class="item" value="3.20" onchange="submitCheck(this)"></td>
+							<td><input type="number" name="5" class="amount" min="0" max="10" maxlength="2" value="0" onchange="submitCheck(this)"></td>
 						</tr>
 						<tr>
 							<td>6</td>
 							<td>Kraanwater</td>
 							<td>&euro; 1,20</td>
-							<td><input type="checkbox" name="Kraanwater" class="item" value="1.20" onchange="submitCheck(this)"></td>
+							<td><input type="number" name="6" class="amount" min="0" max="10" maxlength="2" value="0" onchange="submitCheck(this)"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -81,16 +83,28 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<form onsubmit="berekenBedrag()" action="#">
-					<button class="btn btn-primary" type="submit" name="totaalbedrag" id="totaalbedrag" disabled>Totaalbedrag berekenen</button>
-				</form>
+				<button class="btn btn-primary" name="totaalbedrag" id="totaalbedrag" onclick="berekenBedrag()" disabled>Afrekenen</button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col">
-				<div id="bedragen">
+				<div id="receipt">
 					<h3>Bestelling:</h3>
-				<span id="total">Totaalbedrag is: &euro;</span>
+					<hr>
+					<table id="receiptTable" class="table">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Product:</th>
+								<th>Prijs:</th>
+								<th>Aantal:</th>
+								<th>Subtotaal:</th>
+							</tr>
+						</thead>
+						<tbody id="orderOutput">
+						</tbody>
+					</table>
+					<span id="total">Totaalbedrag is: &euro;</span>
 				</div>
 			</div>
 		</div>

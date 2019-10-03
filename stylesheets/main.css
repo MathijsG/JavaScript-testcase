@@ -1,8 +1,3 @@
-.logo
-{
-
-}
-
 h1
 {
 	background-image: url('../images/logo.png');
@@ -10,4 +5,43 @@ h1
 	padding-left: 95px;
 	height: 114px;
 	vertical-align: middle;
+}
+
+#receipt
+{
+	background-image: url('../images/receipt_background.png');
+	background-repeat: no-repeat;
+	font-family: monospace;
+	width: 400px;
+	height: 583px;
+	padding-top: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
+	overflow: hidden;
+	/* display: none; */
+}
+
+#receipt h3
+{
+	font-size: 20px;
+}
+
+#receipt hr
+{
+	border: 1px dashed grey;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.golden
+{
+	color: #F5C21B;
+	background: -webkit-gradient(linear, left top, left bottom, from(#F5C21B), to(#D17000));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+input[type="number"]
+{
+	width: 50px;
 }

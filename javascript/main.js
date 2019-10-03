@@ -1,80 +1,171 @@
+// Koppel variabelen aan HTML-elementen
+var receipt = document.getElementById("receipt");
+var orderOutput = document.getElementById("orderOutput");
+var receiptTable = document.getElementById("receiptTable");
+var firstTime = true;
+
 function initialize()
 {
-	//document.getElementById("bedragen").style.display = 'none';
+	// Maak bonnetje verborgen
+	//receipt.style.visibility="hidden";
 }
-
-var output = document.getElementById('totaalbedrag');
 
 function berekenBedrag()
 {
-	// Maak eerdere output leeg
+	//receipt.style.display="block";
 	
-	// Maak een array van alle elementen met klassenaam item
-	var items=document.getElementsByClassName("item");
-	var selectedItems = "";
-	var selectedItemNames = "";
-	var amount = 0;
-	
-	// Itereer door de opgehaalde elementen
-	for(var i=0; i<items.length; i++)
+	// Maak een array van alle elementen met klassenaam amount
+	var items = document.getElementsByClassName("amount");
+	var totalAmount = 0;
+	var counter = 1;
+
+	if (firstTime == false)
 	{
-		// Check of de elementen checkboxen zijn en gecheckt zijn
-		if(items[i].type == 'checkbox' && items[i].checked==true)
+		orderOutput.innerHTML = "";
+	}
+	
+	// Maak een array van rows
+	let newRow = [];
+	// Itereer door de opgehaalde elementen
+	for(var i=0; i <items.length; i++)
+	{
+		// Check of de waarde van hoeveelheid is gewijzigd ten opzichte van default
+		if(items[i].value > 0)
 		{
-			// Voeg het geselecteerde item toe aan de variabele selectedItems
-			selectedItems += items[i].value+"\n";
-			selectedItemNames += items[i].name +"\n";
+			console.log("Product: " + products[i].productName);
+			console.log("Aantal: " + items[i].value);
+			// createOrderRow(receiptTable,items[i].value,items[i].productName,items[i].value);
+
+			// // Maak nieuwe rij in de tabel
+			// newRow[i] = orderOutput.insertRow();
+			// // Maak nieuwe cell in de tabel
+
+			// let newCell = [];
+			// let cellText = [];
+			// newCell[0] = newRow[i].insertCell(0);
+			// newCell[1] = newRow[i].insertCell(1);
+			// newCell[2] = newRow[i].insertCell(2);
+			// newCell[3] = newRow[i].insertCell(3);
+			// newCell[4] = newRow[i].insertCell(4);
+			
+			
+			// // Teller
+			// cellText[i][0] = document.createTextNode(counter);
+
+			// //Productnaam
+			// cellText[i][1] = document.createTextNode(products[i].productName);
+			
+			// // Prijs
+			// cellText[i][2] = document.createTextNode("\u20AC" + products[i].productPrice);
+			
+			// // Aantal
+			// cellText[i][3] = document.createTextNode(items[i].value + " X");
+			
+			// // Subtotaal
+			// cellText[i][4] = document.createTextNode("\u20AC" + ((products[i].productPrice * 100) * items[i].value) / 100);
+
+			// for (var i=0; i < cellText[i].length; i++)
+			// {
+			// 	newCell[i].appendChild(newRow[i]);
+			// }
 			// Convert de tekst naar float
-			amount = amount + parseFloat(items[i].value);
+			totalAmount += parseFloat(items[i].value);
+
+			counter++;
 		}
 	}
 	// Pinnen vanaf groter dan 5 euro
-	if (amount > 5)
+	if (totalAmount > 5)
 	{
-		output.insertAdjacentHTML('beforeend', '<div id="pin">Wilt u alstublieft pinnen?</div>');
+		// output.insertAdjacentHTML('beforeend', '<div id="pin">Wilt u alstublieft pinnen?</div>');
 	}
 	else
 	{
-		document.getElementById("pin").remove();
+		//document.getElementById("pin").remove();
 	}
 
-	// Output het eindbedrag
-	output.insertAdjacentHTML('afterend', selectedItemNames + " " + selectedItems + "\n");
-	document.getElementById('total').insertAdjacentHTML('beforeend', amount);
 
 	playAudio();
+	
+	// Wacht op geluidje voordat bonnetje komt
+	/*setTimeout(function()
+	{*/
+    	//receipt.style.display="block";
+	/*}, 5000);*/
+	
+	firstTime = false;	
 }
 
-function submitCheck(checkbox)
+
+// Functie omtrent bestelknop
+function submitCheck(numberField)
 {
-	if (checkbox.checked == true)
+	// Koppel HTML-entiteiten aan variabelen
+	var items = document.getElementsByClassName("amount");
+	var orderButton = document.getElementById("totaalbedrag");
+	
+
+	// Als het veranderde nummerveld zelf al groter is dan 0, zet bestelknop dan op enabled
+	if (numberField.value > 0)
 	{
-		var item = document.getElementById("totaalbedrag").disabled = false;
+		orderButton.disabled = false;
 	}
-	else if (checkbox.checked == false)
+	// Als het veranderde nummerveld zelf niet groter is dan 0, check dan of andere nummervelden dat wél zijn
+	else
 	{
-		var items=document.getElementsByClassName("item");
 		var selectedItems = "";
-		var itemsChecked = false;
-		for(var i=0; i<items.length; i++)
+		var itemsInOrder = false;
+		
+		// Itereer door andere nummervelden
+		for(var i=0; i < items.length; i++)
 		{
 		// Check of de elementen checkboxen zijn en gecheckt zijn
-			if(items[i].type=='checkbox' && items[i].checked==true)
+			if(items[i].value > 0)
 			{
-				itemsChecked = true;
+				itemsInOrder = true;
 			}
 		}
 
-		if (itemsChecked == false)
+		if (itemsInOrder)
 		{
-			var item = document.getElementById("totaalbedrag").disabled = true;
+			orderButton.disabled = false;
+		}
+		else
+		{
+			orderButton.disabled = true;
 		}
 	}
 }
 
+
+// Bonnenprintergeluidje
 function playAudio()
 {
+	// Maak audio-object
 	var audio = new Audio('resources/receipt.mp3');
 
+	// Speel audio
 	audio.play();
 }
+
+// function createOrderRow(tableName, productName, productPrice, orderAmount)
+// {
+// 	// Koppel tabelnaam aan parameter
+// 	var tableName = document.getElementById(tableName);
+
+// 	var newRow = tableName.insertRow();
+// 	var newCell = [];
+
+// 	newCell[1] = newRow.insertCell(1);
+// 	newCell[2] = newRow.insertCell(2);
+// 	newCell[3] = newRow.insertCell(3);
+
+// 	// Productnaam
+// 	var productName = document.createTextNode(productName);
+// 	var productPrice = document.createTextNode(productPrice);
+// 	var orderAmount = document.createTextNode(orderAmount);
+
+// 	newCell[1].appendChild(productName);
+// 	newCell[2].appendChild(productPrice);
+// 	newCell[3].appendChild(orderAmount);
+// }
