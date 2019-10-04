@@ -2,96 +2,93 @@
 var receipt = document.getElementById("receipt");
 var orderOutput = document.getElementById("orderOutput");
 var receiptTable = document.getElementById("receiptTable");
+var totalSumOutput = document.getElementById("total");
 var firstTime = true;
-
-function initialize()
-{
-	// Maak bonnetje verborgen
-	//receipt.style.visibility="hidden";
-}
 
 function berekenBedrag()
 {
-	//receipt.style.display="block";
-	
+	receipt.style.display="none";
+
 	// Maak een array van alle elementen met klassenaam amount
 	var items = document.getElementsByClassName("amount");
-	var totalAmount = 0;
+
+	// Teller voor rijtje bestelde producten
 	var counter = 1;
+	var fullRow = "";
+	var subTotal = [];
+	var totalAmount = 0;
 
 	if (firstTime == false)
 	{
 		orderOutput.innerHTML = "";
+		totalSumOutput.innerHTML = "";
 	}
-	
-	// Maak een array van rows
-	let newRow = [];
+
 	// Itereer door de opgehaalde elementen
 	for(var i=0; i <items.length; i++)
 	{
 		// Check of de waarde van hoeveelheid is gewijzigd ten opzichte van default
 		if(items[i].value > 0)
 		{
+			/* 
 			console.log("Product: " + products[i].productName);
 			console.log("Aantal: " + items[i].value);
-			// createOrderRow(receiptTable,items[i].value,items[i].productName,items[i].value);
+			var tr = document.createElement("tr");
+			td[1] = document.createElement("td");
+			td[2] = document.createElement("td");
+			td[3] = document.createElement("td");
+			td[4] = document.createElement("td");
+			td[5] = document.createElement("td");
+			var counter = document.createTextNode(counter); // Teller
+			var productName = document.createTextNode(products[i].productName); // Productnaam
+			var productPrice = document.createTextNode(products[i].productPrice); // Productprijs
+			var amount = document.createTextNode(items[i].value); // Hoeveelheid
+			var subtotal = document.createTextNode((items[i].value * (products[i].productPrice * 100) / 100 ));
 
-			// // Maak nieuwe rij in de tabel
-			// newRow[i] = orderOutput.insertRow();
-			// // Maak nieuwe cell in de tabel
+			td[1].appendChild(counter); // Tellerij-rij
+			td[2].appendChild(productName); // Productnaam-rij
+			td[3].appendChild(productPrice); // Productprijs-rij
+			td[4].appendChild(amount); // Hoeveelheid-rij
+			td[5].appendChild(subtotal); // Subtotaal-rij
+			
+			for (i=0;i<5;i++)
+			{
+				tr.appendChild(td[i]);
+			}
+			*/
+			subTotal[i] =  items[i].value * products[i].productPrice;
+			totalAmount = totalAmount + subTotal[i];
+			//console.log(subTotal[i]);
 
-			// let newCell = [];
-			// let cellText = [];
-			// newCell[0] = newRow[i].insertCell(0);
-			// newCell[1] = newRow[i].insertCell(1);
-			// newCell[2] = newRow[i].insertCell(2);
-			// newCell[3] = newRow[i].insertCell(3);
-			// newCell[4] = newRow[i].insertCell(4);
-			
-			
-			// // Teller
-			// cellText[i][0] = document.createTextNode(counter);
-
-			// //Productnaam
-			// cellText[i][1] = document.createTextNode(products[i].productName);
-			
-			// // Prijs
-			// cellText[i][2] = document.createTextNode("\u20AC" + products[i].productPrice);
-			
-			// // Aantal
-			// cellText[i][3] = document.createTextNode(items[i].value + " X");
-			
-			// // Subtotaal
-			// cellText[i][4] = document.createTextNode("\u20AC" + ((products[i].productPrice * 100) * items[i].value) / 100);
-
-			// for (var i=0; i < cellText[i].length; i++)
-			// {
-			// 	newCell[i].appendChild(newRow[i]);
-			// }
-			// Convert de tekst naar float
-			totalAmount += parseFloat(items[i].value);
+			fullRow += "<tr><td>" + counter + "</td><td>" + products[i].productName + "</td><td>\u20AC " + products[i].productPrice + "</td><td>" + items[i].value + "</td><td>\u20AC " + subTotal[i].toFixed(2) + "</td></</tr>";
 
 			counter++;
 		}
+
 	}
+
+	totalSumOutput.innerHTML = ("Het totaalbedrag is: €"+ totalAmount.toFixed(2));
+
+	// Zet de volledige rij-structuur van bestelde producten in de bon
+	orderOutput.innerHTML = fullRow;
+	
 	// Pinnen vanaf groter dan 5 euro
 	if (totalAmount > 5)
 	{
-		// output.insertAdjacentHTML('beforeend', '<div id="pin">Wilt u alstublieft pinnen?</div>');
+		totalSumOutput.innerHTML += "<p>Wilt u pinnen?</p>";
 	}
-	else
-	{
-		//document.getElementById("pin").remove();
-	}
-
-
-	playAudio();
+	
+	playAudio("printingSound");
 	
 	// Wacht op geluidje voordat bonnetje komt
-	/*setTimeout(function()
-	{*/
-    	//receipt.style.display="block";
-	/*}, 5000);*/
+	setTimeout(function()
+	{
+		receipt.style.display="block";
+		if (totalAmount >5)
+		{
+			playAudio("pinSound");
+		}
+	}, 5000);
 	
 	firstTime = false;	
 }
@@ -113,7 +110,6 @@ function submitCheck(numberField)
 	// Als het veranderde nummerveld zelf niet groter is dan 0, check dan of andere nummervelden dat wél zijn
 	else
 	{
-		var selectedItems = "";
 		var itemsInOrder = false;
 		
 		// Itereer door andere nummervelden
@@ -139,33 +135,18 @@ function submitCheck(numberField)
 
 
 // Bonnenprintergeluidje
-function playAudio()
+function playAudio(file)
 {
 	// Maak audio-object
-	var audio = new Audio('resources/receipt.mp3');
 
+	if (file == "printingSound")
+	{
+		var audio = new Audio('resources/receipt.mp3');
+	}
+	else if (file == "pinSound")
+	{
+		var audio = new Audio('resources/pinnen.mp3');
+	}
 	// Speel audio
 	audio.play();
 }
-
-// function createOrderRow(tableName, productName, productPrice, orderAmount)
-// {
-// 	// Koppel tabelnaam aan parameter
-// 	var tableName = document.getElementById(tableName);
-
-// 	var newRow = tableName.insertRow();
-// 	var newCell = [];
-
-// 	newCell[1] = newRow.insertCell(1);
-// 	newCell[2] = newRow.insertCell(2);
-// 	newCell[3] = newRow.insertCell(3);
-
-// 	// Productnaam
-// 	var productName = document.createTextNode(productName);
-// 	var productPrice = document.createTextNode(productPrice);
-// 	var orderAmount = document.createTextNode(orderAmount);
-
-// 	newCell[1].appendChild(productName);
-// 	newCell[2].appendChild(productPrice);
-// 	newCell[3].appendChild(orderAmount);
-// }

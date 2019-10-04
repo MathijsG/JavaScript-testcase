@@ -12,13 +12,14 @@ h1
 	background-image: url('../images/receipt_background.png');
 	background-repeat: no-repeat;
 	font-family: monospace;
-	width: 400px;
+	width: 385px;
 	height: 583px;
 	padding-top: 20px;
 	padding-left: 30px;
 	padding-right: 30px;
+	margin-bottom: 10px;
 	overflow: hidden;
-	/* display: none; */
+	display: none;
 }
 
 #receipt h3
